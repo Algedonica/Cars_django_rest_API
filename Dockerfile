@@ -13,14 +13,14 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN python -m pip install -r requirements.txt
 
-WORKDIR /app
-COPY . /app
+WORKDIR /notdefinitelypixarcars
+COPY . /notdefinitelypixarcars
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /notdefinitelypixarcars
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # File wsgi.py was not found in subfolder: 'Cars_django_rest_API'. Please enter the Python path to wsgi file.
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "notdefinitelypixarcars.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--config=gunicorn_config.py","notdefinitelypixarcars.wsgi"]
